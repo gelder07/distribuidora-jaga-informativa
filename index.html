@@ -43,7 +43,7 @@ body{background:var(--tinta);color:var(--texto);font-family:"Poppins",system-ui,
  </div>
 </header>
 <main class="escena" id="escena"></main>
-<p class="nota"><strong>Versión informativa:</strong> sin carrito, sin pago en línea, sin precios y sin sección de productos. Los pedidos y consultas van por WhatsApp. El buscador sugiere marcas, productos de las marcas y páginas mientras escribes. En <strong>Marcas afiliadas</strong> toca una marca para ver la transición. Productos y testimonios de ejemplo; logos, fotos del camión y promociones son material de la marca.</p>
+
 <script>
 let pag="inicio", dis=matchMedia("(max-width:700px)").matches?"mov":"esc";
 const esc=document.getElementById("escena");
@@ -65,5 +65,4 @@ addEventListener("resize",ajusta);
 try{const h=location.hash.slice(1);if(["marcas","nosotros","contacto"].includes(h))pag=h}catch(e){}
 pinta();
 </script>
-
 </body></html>
