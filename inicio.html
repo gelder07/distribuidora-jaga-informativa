@@ -746,11 +746,31 @@ body{overflow-x:clip}
  .cinta-pista,.rodillos,.cit .cit-img,.pk-img svg,.raton::after{animation:none!important}
  .cinta{overflow-x:auto}
 }
-
-.mp-p,.cf-p,.rel-p,.sb-pr,[data-accion],.vit-txt .prod-precio,.ac-mas{display:none!important}</style>
+/* ===== Por categoría: la categoría elegida y sus productos debajo ===== */
+.cs-chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;margin-right:calc(-1 * var(--gutter-r));padding-right:var(--gutter-r);scrollbar-width:none}
+.cs-chips::-webkit-scrollbar{display:none}
+.cs-cab{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:16px 18px;border-radius:14px;background:var(--blanco);border:1px solid var(--borde);margin:14px 0 18px}
+.cs-cab .pq-ico{margin:0;background:var(--azul);color:var(--blanco)}
+.cs-txt{flex:1 1 220px;min-width:0}
+.cs-txt .h3{color:var(--azul)}
+.cs-txt p{margin:2px 0 0}
+.cs-grid .prod{animation:csEntra .35s cubic-bezier(.23,1,.32,1) both}
+@keyframes csEntra{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.cs-grid .prod{animation:none}}
+/* ===== Categorías destacadas: cada categoría con sus productos debajo, sin pestañas ===== */
+.cd-lista{display:grid;grid-template-columns:minmax(0,1fr);gap:44px}
+.cd-bloque{min-width:0}
+@media (min-width:900px){.cd-lista{gap:64px}}
+.cd-bloque .cs-cab{margin-top:0}
+@media (max-width:639px){
+ .cd-fila{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(210px,72%);grid-template-columns:none;overflow-x:auto;scroll-snap-type:x mandatory;margin-right:calc(-1 * var(--gutter-r));padding-right:var(--gutter-r);padding-bottom:6px;scrollbar-width:none}
+ .cd-fila::-webkit-scrollbar{display:none}
+ .cd-fila .prod{scroll-snap-align:start}
+}
+</style>
 </head>
 <body>
-<p class="aviso-ejemplo">Propuesta de diseño · sitio informativo · productos y testimonios de ejemplo</p>
+<p class="aviso-ejemplo">Propuesta de diseño · productos y testimonios de ejemplo</p>
 <div class="franja"><div class="wrap"><span><strong>Entregas a domicilio</strong> en los departamentos de Nicaragua <span aria-hidden="true">·</span> Pedidos al 8600-5421</span><nav class="redes" aria-label="Redes sociales"><a href="https://www.instagram.com/jagadistribuidora" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/profile.php?id=61591157715562" target="_blank" rel="noopener">Facebook</a></nav></div></div>
 <header class="cab"><div class="wrap">
  <div class="cab-fila">
@@ -759,7 +779,7 @@ body{overflow-x:clip}
   <nav class="cab-nav" aria-label="Principal"><a href="inicio.html" aria-current="page">Inicio</a><a href="marcas.html">Marcas afiliadas</a><a href="nosotros.html">Nosotros</a><a href="contacto.html">Contacto</a></nav>
   <span class="espacio"></span>
   <form class="buscador" role="search" data-buscar><label class="sr" for="buscar-escritorio">Buscar productos</label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><input id="buscar-escritorio" name="q" type="search" placeholder="¿Qué necesitas hoy?" autocomplete="off"></form>
-  <a class="icono-btn cab-wa" href="https://wa.me/50586005421?text=Hola%20JAGA%2C%20quiero%20hacer%20un%20pedido" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" data-icon="wa"><span class="txt">Escríbenos</span></a>
+  
  </div>
  <div class="cab-busqueda-movil"><form class="buscador" role="search" data-buscar><label class="sr" for="buscar-movil">Buscar productos</label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><input id="buscar-movil" name="q" type="search" placeholder="¿Qué necesitas hoy?" autocomplete="off"></form></div>
 </div></header>
@@ -773,23 +793,14 @@ body{overflow-x:clip}
 <main id="contenido">
 
 <!-- 1. LA CAJA JAGA: se abre con el scroll y saca los productos -->
-<script>(function(){var h="caja";try{h=localStorage.getItem("jaga-hero")||"caja"}catch(e){}if(!/^(caja|canasta|entrada)$/.test(h))h="caja";document.documentElement.setAttribute("data-portada",h);})();</script>
-<div class="portada-sel" data-portada-sel>
- <button type="button" class="ps-btn" data-ps-abrir aria-expanded="false"><span class="ps-et">Portada</span><span data-ps-nombre></span><span aria-hidden="true">▾</span></button>
- <div class="ps-menu" data-ps-menu hidden role="menu">
-  <p class="ps-tit">Elige la portada para ver</p>
-  <button type="button" role="menuitemradio" data-ps="caja"><strong>Caja animada</strong><span>La caja que se abre al bajar (principal)</span></button>
-  <button type="button" role="menuitemradio" data-ps="canasta"><strong>Lluvia a la canasta</strong><span>Los productos caen en la canasta</span></button>
-  <button type="button" role="menuitemradio" data-ps="entrada"><strong>Recorrido por la distribuidora</strong><span>La cámara entra y mira los pasillos</span></button>
- </div>
-</div>
+<script>document.documentElement.setAttribute("data-portada","caja");</script>
 <section class="hero" aria-labelledby="hb-t">
  <picture><source media="(min-width:900px)" srcset="img/hero-1600.webp" width="1600" height="582"><img class="hero-img" src="img/hero-800.webp" alt="Camión rotulado de Distribuidora JAGA frente a una pulpería" width="800" height="445" fetchpriority="high"></picture>
  <div class="wrap hero-cont"><div class="hero-texto">
   <p class="hero-eyebrow">Distribuidora de productos de consumo · Nicaragua</p>
   <h1 class="marca h-display" id="hb-t">Distribuimos las marcas que mueven Nicaragua</h1>
   <p class="lead">Abarrotes, limpieza, higiene, farmacia, alimentos y bebidas a precio de distribuidora, con entrega a domicilio.</p>
-  <div class="hero-btns"><a class="btn btn-primario" href="marcas.html">Ver marcas afiliadas<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a><a class="btn btn-claro" href="contacto.html">Contáctanos</a></div>
+  <div class="hero-btns"><a class="btn btn-primario" href="marcas.html">Ver marcas<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a><a class="btn btn-claro" href="contacto.html">Contáctanos</a></div>
  </div></div>
 </section>
 <section class="caja-sec" data-hero="caja" data-caja aria-labelledby="hero-t">
@@ -803,7 +814,7 @@ body{overflow-x:clip}
   </div>
   <div class="caja-txt2" data-c-txt2>
    <p class="caja-cifras"><span>6 marcas</span><span>7 categorías</span><span>Un solo pedido</span></p>
-   <div class="hero-btns"><a class="btn btn-primario" href="#showroom">Entrar al showroom<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a><a class="btn btn-claro" href="https://wa.me/50586005421?text=Hola%20JAGA%2C%20quiero%20hacer%20un%20pedido" target="_blank" rel="noopener" data-icon="wa">Pedir por WhatsApp</a></div>
+   <div class="hero-btns"><a class="btn btn-primario" href="marcas.html">Entrar al showroom<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a><a class="btn btn-claro" href="https://wa.me/50586005421?text=Hola%20JAGA%2C%20quiero%20hacer%20un%20pedido" target="_blank" rel="noopener" data-icon="wa">Pedir por WhatsApp</a></div>
   </div>
   <div class="caja-escena" aria-hidden="true">
    <div class="caja" data-c-caja>
@@ -829,7 +840,7 @@ body{overflow-x:clip}
   <p class="ent-cap" data-e-cap aria-live="polite"></p>
   <div class="ent-fin" data-e-fin>
    <h2 class="titulo up">Todo esto, hasta tu puerta</h2>
-   <div class="hero-btns"><a class="btn btn-primario" href="marcas.html">Ver marcas afiliadas<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a><a class="btn btn-claro" href="contacto.html">Contáctanos</a></div>
+   <div class="hero-btns"><a class="btn btn-primario" href="marcas.html">Ver marcas<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a><a class="btn btn-claro" href="contacto.html">Contáctanos</a></div>
   </div>
   <div class="ent-prog" aria-hidden="true"><span data-e-prog></span></div>
  </div>
@@ -843,7 +854,7 @@ body{overflow-x:clip}
    <p class="hero-eyebrow">Distribuidora de productos de consumo · Nicaragua</p>
    <h2 class="marca h-display" id="hca-t">Las marcas que ya conoces, hasta tu puerta</h2>
    <p class="lead">Abarrotes, limpieza, higiene, farmacia, alimentos y bebidas de las marcas que ya conoces, a precio de distribuidora y hasta tu puerta.</p>
-   <div class="hero-btns"><a class="btn btn-primario" href="marcas.html">Ver marcas afiliadas<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a><a class="btn btn-claro" href="https://wa.me/50586005421?text=Hola%20JAGA%2C%20quiero%20hacer%20un%20pedido" target="_blank" rel="noopener" data-icon="wa">Pedir por WhatsApp</a></div>
+   <div class="hero-btns"><a class="btn btn-primario" href="marcas.html">Ver marcas<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a><a class="btn btn-claro" href="https://wa.me/50586005421?text=Hola%20JAGA%2C%20quiero%20hacer%20un%20pedido" target="_blank" rel="noopener" data-icon="wa">Pedir por WhatsApp</a></div>
   </div>
   <div class="ca-zona">
    <p class="ca-ayuda">Elige una categoría y llena la canasta</p>
@@ -872,7 +883,7 @@ body{overflow-x:clip}
 
 <!-- 4. SHOWROOM: MOSAICO QUE SE EXPANDE -->
 <section class="seccion sr-mosaico" id="showroom" aria-labelledby="sr1-t"><div class="wrap">
- <div class="sec-cab" data-reveal><div><p class="eyebrow">Showroom</p><h2 class="titulo up h2" id="sr1-t">Recorre las categorías</h2><p class="muted sr-sub">Pasa el cursor o toca una categoría: se abre y te muestra sus productos.</p></div><a class="enlace-mas" href="marcas.html">Ver marcas afiliadas<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
+ <div class="sec-cab" data-reveal><div><p class="eyebrow">Showroom</p><h2 class="titulo up h2" id="sr1-t">Recorre las categorías</h2><p class="muted sr-sub">Pasa el cursor o toca una categoría: se abre y te muestra sus productos.</p></div><a class="enlace-mas" href="marcas.html">Ver todas las marcas<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
  <div class="acor" data-acor></div>
 </div></section>
 
@@ -883,6 +894,20 @@ body{overflow-x:clip}
  <div class="cf-escena" data-cf tabindex="0" aria-label="Carrusel de productos"><div class="cf-pista" data-cf-pista></div><button type="button" class="giro-btn cf-prev" data-cf-prev aria-label="Anterior">‹</button><button type="button" class="giro-btn cf-next" data-cf-next aria-label="Siguiente">›</button></div>
  <div class="wrap"><div class="cf-info" data-cf-info aria-live="polite"></div></div>
 </section>
+
+<!-- 4c. POR CATEGORÍA: la categoría elegida y sus productos debajo -->
+<section class="seccion gris" id="categorias" aria-labelledby="cs-t"><div class="wrap">
+ <div class="sec-cab" data-reveal><div><p class="eyebrow">Por categoría</p><h2 class="titulo up h2" id="cs-t">Todo lo que distribuimos</h2><p class="muted sr-sub">Elige una categoría y mira sus productos.</p></div></div>
+ <div class="chips cs-chips" data-cs-chips role="toolbar" aria-label="Categorías"></div>
+ <div class="cs-cab" data-cs-cab aria-live="polite"></div>
+ <div class="grid-prod c4 cs-grid" data-cs-grid></div>
+</div></section>
+
+<!-- 4d. CATEGORÍAS DESTACADAS: cada categoría con sus productos debajo -->
+<section class="seccion" id="categorias-destacadas" aria-labelledby="cd-t"><div class="wrap">
+ <div class="sec-cab" data-reveal><div><p class="eyebrow">Categorías destacadas</p><h2 class="titulo up h2" id="cd-t">De la repisa a tu pedido</h2><p class="muted sr-sub">Cada categoría con sus productos, a la vista.</p></div></div>
+ <div class="cd-lista" data-cd></div>
+</div></section>
 
 <!-- 5. EN VITRINA -->
 <section class="seccion vitrina-sec" aria-labelledby="vi-t"><div class="wrap vit-grid" data-estrella></div></section>
@@ -898,10 +923,10 @@ body{overflow-x:clip}
 <!-- 7. MAZO DE OFERTAS -->
 <section class="seccion ofertas-k" id="ofertas" aria-labelledby="of-t"><div class="wrap of-grid">
  <div class="of-txt" data-reveal>
-  <p class="eyebrow">Promociones de nuestras marcas</p>
-  <h2 class="titulo up h2" id="of-t">Lo que están anunciando nuestras marcas</h2>
-  <p class="muted">Pasa las tarjetas para ver las promociones. Si un producto te interesa, pregúntanos por WhatsApp.</p>
-  <div class="of-ctrl"><button class="btn btn-contorno" data-mazo-ant>Anterior</button><button class="btn btn-primario" data-mazo-sig>Siguiente</button></div>
+  <p class="eyebrow">Ofertas de la semana</p>
+  <h2 class="titulo up h2" id="of-t">Ofertas que no se quedan en bodega</h2>
+  <p class="muted">Pasa las tarjetas para ver todas las promociones. Si una te interesa, pídela por WhatsApp antes de que se acabe.</p>
+  <div class="of-ctrl"><button class="btn btn-contorno" data-mazo-ant>Anterior</button><button class="btn btn-primario" data-mazo-sig>Siguiente oferta</button></div>
   <p class="of-cont muted" data-mazo-cont aria-live="polite"></p>
  </div>
  <div class="mazo" data-mazo><figure class="carta" data-carta="0"><img src="img/promo-zass.webp" alt="ZASS espirales antimosquitos: Dile adiós a los mosquitos" width="560" height="560" loading="lazy" draggable="false"></figure><figure class="carta" data-carta="1"><img src="img/promo-wixy-cloro.webp" alt="WIXY cloro granulado: cómo disolver el sobre en un litro de agua" width="560" height="560" loading="lazy" draggable="false"></figure><figure class="carta" data-carta="2"><img src="img/promo-biogel.webp" alt="Biogel suspensión oral: alivia la gastritis y el reflujo" width="560" height="560" loading="lazy" draggable="false"></figure><figure class="carta" data-carta="3"><img src="img/promo-wixy-fragancia.webp" alt="WIXY limpiador de inodoro en barra: fragancia que dura" width="560" height="560" loading="lazy" draggable="false"></figure><figure class="carta" data-carta="4"><img src="img/promo-wellpro.webp" alt="Wellpro gomitas de vitaminas para niños" width="560" height="560" loading="lazy" draggable="false"></figure><figure class="carta" data-carta="5"><img src="img/promo-henkall.webp" alt="Henkall rasuradora: tu piel merece lo mejor" width="560" height="560" loading="lazy" draggable="false"></figure><figure class="carta" data-carta="6"><img src="img/promo-strom.webp" alt="STROM baterías: energiza tu mundo" width="560" height="560" loading="lazy" draggable="false"></figure><figure class="carta" data-carta="7"><img src="img/promo-wixy-disuelve.webp" alt="WIXY cloro granulado concentrado: disuelve y resuelve" width="560" height="560" loading="lazy" draggable="false"></figure><figure class="carta" data-carta="8"><img src="img/promo-wixy-barra.webp" alt="WIXY barras limpiadoras para inodoro" width="560" height="560" loading="lazy" draggable="false"></figure></div>
@@ -918,7 +943,7 @@ body{overflow-x:clip}
    </svg>
    <div class="camion" data-camion aria-hidden="true"><span data-icon="truck"></span></div>
    <ol class="paradas">
-    <li style="--x:2%;--y:80%"><strong>1. Pides</strong><span>En línea o por WhatsApp</span></li>
+    <li style="--x:2%;--y:80%"><strong>1. Pides</strong><span>Por WhatsApp o por teléfono</span></li>
     <li style="--x:38%;--y:27%"><strong>2. Preparamos</strong><span>Tu pedido completo, en Managua</span></li>
     <li style="--x:72%;--y:60%"><strong>3. Sale en ruta</strong><span>Cargotrans o camión JAGA</span></li>
     <li style="--x:98%;--y:23%"><strong>4. Recibes</strong><span>En tu casa o tu negocio</span></li>
@@ -930,7 +955,7 @@ body{overflow-x:clip}
 <!-- 9. CIERRE -->
 <section class="cierre"><div class="wrap cierre-in" data-reveal>
  <h2 class="marca h-display">¿Lo viste? Te lo llevamos.</h2>
- <p class="lead">Escríbenos y un asesor te atiende: precios, disponibilidad y entregas.</p>
+ <p class="lead">Escríbenos por WhatsApp o llámanos y un asesor prepara tu pedido.</p>
  <div class="hero-btns"><a class="btn btn-primario" href="marcas.html">Ver las marcas<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a><a class="btn btn-claro" href="https://wa.me/50586005421" target="_blank" rel="noopener" data-icon="wa">Escribir al 8600-5421</a></div>
 </div></section>
 
@@ -938,15 +963,13 @@ body{overflow-x:clip}
 <footer class="pie" id="pie">
  <div class="wrap">
   <div><a class="logo-pie" href="inicio.html"><img src="img/logo-h-blanco.webp" alt="Distribuidora JAGA" width="560" height="163"></a><p style="margin:0;max-width:34ch">Abarrotes, limpieza, higiene, alimentos y bebidas a precios bajos, con entrega a domicilio en Nicaragua.</p></div>
-  <div><h3>Explorar</h3><ul><li><a href="marcas.html">Marcas afiliadas</a></li><li><a href="contacto.html">Contacto</a></li></ul></div>
+  <div><h3>Explorar</h3><ul><li><a href="marcas.html">Marcas afiliadas</a></li><li><a href="contacto.html">Pedidos por WhatsApp</a></li><li><a href="contacto.html">Contacto</a></li></ul></div>
   <div><h3>JAGA</h3><ul><li><a href="nosotros.html">Nosotros</a></li><li><a href="contacto.html">Preguntas frecuentes</a></li><li><a href="#">Envíos y devoluciones</a></li><li><a href="#">Privacidad</a></li></ul></div>
   <div><h3>Contacto</h3><ul><li>WhatsApp y teléfono: 8600-5421</li><li>ventas@disjaga.com.ni</li><li>De la Estatua de Montoya 75 vrs al este, calle 27 de Mayo, Managua</li><li><a href="https://www.instagram.com/jagadistribuidora" target="_blank" rel="noopener">Instagram</a> · <a href="https://www.facebook.com/profile.php?id=61591157715562" target="_blank" rel="noopener">Facebook</a></li></ul></div>
  </div>
  <div class="pie-legal"><div class="wrap"><span>© 2026 Distribuidora JAGA</span><span>Razón social, RUC y horarios por confirmar</span></div></div>
 </footer>
-
 <a class="wa-flotante" href="https://wa.me/50586005421?text=Hola%20JAGA%2C%20tengo%20una%20consulta" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp"><span class="globo">¿Te ayudamos?</span><span class="circulo" data-icon="wa"></span></a>
-
 <dialog class="ficha" aria-label="Ficha de producto"><form method="dialog"><button class="icono-btn cerrar-ficha" aria-label="Cerrar ficha" data-icon="x"></button></form><div class="ficha-cont"></div></dialog>
 <script>const MODO_INFO=true;
 /* Cada página abre siempre desde arriba (sin recordar ni saltar a anclas al entrar) */
@@ -1038,6 +1061,9 @@ const P = [
  {id:23,n:"Baterías alcalinas AA",m:"STROM",c:"hogar",pr:"Blíster 4 unid.",pres:["Blíster 2 unid.","Blíster 4 unid."],$:60,f:"blister",col:"#0E2A47",ac:"#F5C400",l:"STROM"},
  {id:24,n:"Baterías alcalinas AAA",m:"STROM",c:"hogar",pr:"Blíster 4 unid.",pres:["Blíster 2 unid.","Blíster 4 unid."],$:60,f:"blister",col:"#0E2A47",ac:"#F5C400",l:"STROM"}
 ];
+/* Fotos reales de los productos de las marcas (recortadas de sus piezas de redes) */
+const FOTOS={13:"foto-wixy-cloro",14:"foto-wixy-barra",15:"foto-zass",17:"foto-henkall",21:"foto-biogel",22:"foto-wellpro-vitc",25:"foto-wellpro-osito",26:"foto-wellpro-sinazucar",23:"foto-strom-aa",24:"foto-strom-aaa"};
+P.forEach(p=>{if(FOTOS[p.id])p.foto=FOTOS[p.id]});
 const MARCAS = [
  {id:"wixy",n:"WIXY",cat:"Limpieza",lema:"Máximo ahorro, máxima limpieza",img:"promo-wixy-cloro",img2:"promo-wixy-fragancia",col:"#1F5FA8",txt:"Cloro granulado concentrado y limpiadores de inodoro en barra para el hogar y el negocio."},
  {id:"zass",n:"ZASS",cat:"Limpieza · Insecticidas",lema:"¡Y adiós mosquitos!",img:"promo-zass",col:"#2E8B3E",txt:"Espirales repelentes de mosquitos con aroma a lavanda."},
@@ -1115,7 +1141,8 @@ function pack(p,modo){
   const txt = (x,y,s,col)=>`<text x="${x}" y="${y}" text-anchor="middle" font-family="Poppins,system-ui,sans-serif" font-weight="700" font-size="${s}" fill="${col}" letter-spacing=".5">${L}</text>`;
   const fs = L.length>8?11:L.length>6?13:15;
   let g="";
-  switch(p.f){
+  if(p.foto){g=`<image href="img/${p.foto}.webp" x="26" y="18" width="148" height="150" preserveAspectRatio="xMidYMid meet"/>`}
+  else switch(p.f){
     case "bolsa": g=`<path d="M58 50h84l6 104a10 10 0 0 1-10 11H62a10 10 0 0 1-10-11z" fill="${c}" ${stroke}/><path d="M58 50h84l-3-12H61z" fill="${a}"/><path d="M61 38h78" stroke="${a}" stroke-width="4" stroke-dasharray="4 3"/><rect x="66" y="88" width="68" height="40" rx="20" fill="${light?a:'#FFFFFF'}"/>${txt(100,113,fs,light?'#FFFFFF':c)}<rect x="74" y="140" width="52" height="6" rx="3" fill="${a}" opacity=".5"/>`;break;
     case "botella": g=`<rect x="88" y="26" width="24" height="14" rx="3" fill="${a}"/><path d="M90 40h20v14c0 6 16 12 16 26v78a8 8 0 0 1-8 8H82a8 8 0 0 1-8-8V80c0-14 16-20 16-26z" fill="${c}" ${stroke} opacity="${c==='#CFE8F7'?'.95':'1'}"/><rect x="74" y="96" width="52" height="40" fill="${light?a:'#FFFFFF'}"/>${txt(100,121,fs,light?'#FFFFFF':a)}`;break;
     case "caja": g=`<path d="M130 48l14-10v116l-14 10z" fill="${a}" opacity=".55"/><path d="M56 48l14-10h74l-14 10z" fill="${a}" opacity=".35"/><rect x="56" y="48" width="74" height="116" rx="3" fill="${c}" ${stroke}/><rect x="56" y="80" width="74" height="36" fill="${a}"/>${txt(93,104,fs,c)}<circle cx="93" cy="140" r="12" fill="#FFFFFF" opacity=".55"/>`;break;
@@ -1346,7 +1373,7 @@ window.addEventListener("load",()=>{let s=null;try{s=sessionStorage.getItem("jag
   }
 })();
 
-document.querySelectorAll("[data-buscar]").forEach(f=>f.addEventListener("submit",e=>{e.preventDefault();const q=f.querySelector("input").value.trim();try{sessionStorage.setItem("jaga-q",q)}catch(_){}if(MODO_INFO){const o=f.querySelector(".sb-panel [role=option]");if(o)o.click();return}if(window.buscarEnCatalogo)window.buscarEnCatalogo(q);else location.href="catalogo.html#buscar";}));
+document.querySelectorAll("[data-buscar]").forEach(f=>f.addEventListener("submit",e=>{e.preventDefault();const q=f.querySelector("input").value.trim();try{sessionStorage.setItem("jaga-q",q)}catch(_){}if(MODO_INFO){const o=f.querySelector(".sb-panel [role=option]");if(o)o.click();return}location.href="marcas.html";}));
 
 /* ===== Selección de portada ===== */
 function selectorPortada(){
@@ -1476,7 +1503,7 @@ const CC={abarrotes:["#004C6C","#003A53","#fff"],alimentos:["#F1A300","#D98A00",
 const DESC={abarrotes:"Lo básico de la cocina: granos, aceite, azúcar y café.",alimentos:"Para la merienda y la despensa de todos los días.",bebidas:"Para refrescar la casa, el negocio y la fiesta.",limpieza:"Cloro, detergente y todo para dejar la casa reluciente.",higiene:"Cuidado personal para toda la familia.",farmacia:"Bienestar y vitaminas de marcas de confianza.",hogar:"Baterías y artículos que siempre hacen falta."};
 const prodsDe=id=>P.filter(p=>p.c===id);
 const vars=id=>{const [a,b,t]=CC[id];return `--cc:${a};--cc2:${b};--ct:${t}`};
-const mini=(p,i)=>`<button class="mp" data-ver="${p.id}" style="animation-delay:${(i||0)*60}ms"><span class="mp-img">${pack(p,"sinfondo")}</span><span class="mp-m">${p.m}</span><span class="mp-n">${p.n}</span><span class="mp-p">${fmt(p.$)}</span></button>`;
+const mini=(p,i)=>`<button class="mp" data-ver="${p.id}" style="animation-delay:${(i||0)*60}ms"><span class="mp-img">${pack(p,"sinfondo")}</span><span class="mp-m">${p.m}</span><span class="mp-n">${p.n}</span>${MODO_INFO?"":`<span class="mp-p">${fmt(p.$)}</span>`}</button>`;
 const reduceOp=matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /* 3. Mosaico */
@@ -1484,7 +1511,7 @@ function opAcor(){
   const cont=document.querySelector("[data-acor]");
   cont.innerHTML=CATS.map((c,i)=>{const ps=prodsDe(c.id);return `<div class="ac${i===0?" abierto":""}" tabindex="0" role="button" aria-expanded="${i===0}" aria-label="${c.n}" data-ac="${c.id}" style="${vars(c.id)}">
    <div class="ac-cerr"><span class="gp-ico">${ic(c.i)}</span><span class="ac-vert">${c.n}</span><span class="ac-pack">${pack(ps[0],"vitrina")}</span></div>
-   <div class="ac-abie"><div class="ac-tit"><span class="gp-ico">${ic(c.i)}</span><h3>${c.n}</h3></div><p>${DESC[c.id]} ${ps.length} productos en el showroom.</p><div class="ac-grid">${ps.slice(0,4).map(mini).join("")}</div><a class="ac-mas" href="catalogo.html#${c.id}">Ver los ${ps.length} productos</a></div></div>`}).join("");
+   <div class="ac-abie"><div class="ac-tit"><span class="gp-ico">${ic(c.i)}</span><h3>${c.n}</h3></div><p>${DESC[c.id]} ${ps.length} productos en el showroom.</p><div class="ac-grid">${ps.slice(0,4).map(mini).join("")}</div><a class="ac-mas" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent("Hola JAGA, quiero información de productos de "+c.n)}">Consultar ${c.n.toLowerCase()} por WhatsApp</a></div></div>`}).join("");
   const abrir=el=>{if(el.classList.contains("abierto"))return;cont.querySelectorAll(".ac").forEach(a=>{a.classList.toggle("abierto",a===el);a.setAttribute("aria-expanded",a===el)})};
   const hover=matchMedia("(hover:hover) and (min-width:900px)").matches;
   cont.querySelectorAll(".ac").forEach(a=>{
@@ -1512,7 +1539,7 @@ function opCoverflow(){
       const x=d===0?0:Math.sign(d)*(w*.62+(a-1)*gap);
       el.style.transform=`translate(-50%,-50%) translateX(${x}px) translateZ(${d===0?80:-a*40}px) rotateY(${d===0?0:-Math.sign(d)*55}deg)`;
       el.style.zIndex=100-a; el.style.opacity=a>5?0:1; el.style.filter=d===0?"none":`brightness(${1-a*.12})`; el.tabIndex=d===0?0:-1});
-    const p=lista[cur]; info.innerHTML=`<div class="cf-txt"><span class="cf-m">${p.m}</span><span class="cf-n">${p.n}</span></div><span class="cf-p">${fmt(p.$)}</span><div class="cf-acc"><div data-accion="${p.id}"></div><button class="vt-ver" data-ver="${p.id}">Ver ficha</button></div>`;
+    const p=lista[cur]; info.innerHTML=`<div class="cf-txt"><span class="cf-m">${p.m}</span><span class="cf-n">${p.n}</span></div>${MODO_INFO?"":`<span class="cf-p">${fmt(p.$)}</span>`}<div class="cf-acc">${MODO_INFO?`<a class="btn btn-wa" target="_blank" rel="noopener" href="${waProd(p)}">${WA_ICON}Consultar</a>`:`<div data-accion="${p.id}"></div>`}<button class="vt-ver" data-ver="${p.id}">Ver ficha</button></div>`;
     refresh();
   }
   const ir=n=>{cur=Math.max(0,Math.min(lista.length-1,n));pinta()};
@@ -1539,11 +1566,43 @@ function opLluvia(){
   const marca=i=>chips.querySelectorAll(".chip").forEach((x,j)=>x.setAttribute("aria-pressed",j===i));
   if(auto) tm=setInterval(()=>{if(!auto||document.hidden||g.getBoundingClientRect().bottom<0)return;k=(k+1)%CATS.length;marca(k);llueve(CATS[k].id)},4200);
 }
+/* 4c. Por categoría */
+function iniciarCategorias(){
+  const g=document.querySelector("[data-cs-grid]"), cab=document.querySelector("[data-cs-cab]"); if(!g) return;
+  const pinta=id=>{
+    const c=CATS.find(x=>x.id===id), ps=prodsDe(id);
+    const ir=MODO_INFO
+      ? `<a class="enlace-mas" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent("Hola JAGA, quiero información de productos de "+c.n)}">Consultar por WhatsApp${ic("arrow")}</a>`
+      : `<a class="enlace-mas" href="catalogo.html#${c.id}">Ver en Compras${ic("arrow")}</a>`;
+    cab.innerHTML=`<span class="pq-ico">${ic(c.i)}</span><div class="cs-txt"><h3 class="h3">${c.n}</h3><p class="muted">${DESC[c.id]} ${ps.length} producto${ps.length==1?"":"s"}.</p></div>${ir}`;
+    g.innerHTML=ps.map((p,i)=>cardHTML(p).replace('<article class="prod"',`<article style="animation-delay:${Math.min(i,7)*45}ms" class="prod"`)).join("");
+    refresh();
+  };
+  /* Solo estas categorías se muestran en el inicio */
+  const IDS=["limpieza","farmacia","higiene"];
+  const ch=document.querySelector("[data-cs-chips]");
+  ch.innerHTML=IDS.map((id,i)=>`<button class="chip" data-cid="${id}" aria-pressed="${i===0}">${CATS.find(c=>c.id===id).n}</button>`).join("");
+  ch.addEventListener("click",e=>{const b=e.target.closest("[data-cid]");if(!b)return;ch.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",x===b));pinta(b.dataset.cid)});
+  pinta(IDS[0]);
+}
+/* 4d. Categorías destacadas (sin pestañas) */
+function iniciarCategoriasDirecto(){
+  const cont=document.querySelector("[data-cd]"); if(!cont) return;
+  const IDS=["limpieza","farmacia","higiene"];
+  cont.innerHTML=IDS.map(id=>{
+    const c=CATS.find(x=>x.id===id), ps=prodsDe(id);
+    const ir=MODO_INFO
+      ? `<a class="enlace-mas" target="_blank" rel="noopener" href="https://wa.me/${WA}?text=${encodeURIComponent("Hola JAGA, quiero información de productos de "+c.n)}">Consultar por WhatsApp${ic("arrow")}</a>`
+      : `<a class="enlace-mas" href="catalogo.html#${c.id}">Ver en Compras${ic("arrow")}</a>`;
+    return `<div class="cd-bloque" aria-labelledby="cd-${c.id}"><div class="cs-cab"><span class="pq-ico">${ic(c.i)}</span><div class="cs-txt"><h3 class="h3" id="cd-${c.id}">${c.n}</h3><p class="muted">${DESC[c.id]} ${ps.length} producto${ps.length==1?"":"s"}.</p></div>${ir}</div><div class="grid-prod c4 cd-fila">${ps.map(cardHTML).join("")}</div></div>`;
+  }).join("");
+  refresh();
+}
 /* 5. Vitrina con inclinación */
 function iniciarVitrinaEstrella(){
   const c=document.querySelector("[data-estrella]"); if(!c) return;
   const p=byId(25), m=MARCAS.find(x=>x.id==="wellpro");
-  c.innerHTML=`<div class="vit-escena">${vitrinaHTML(p,"")}</div><div class="vit-txt" data-reveal><span class="vit-sello">${ic("zap")}En vitrina esta semana</span><span class="vit-marca" style="color:${m.col}">${p.m}</span><h2 class="titulo up" id="vi-t">${p.n}</h2><p>Gomitas de pectina con multivitaminas, en forma de osito. Un frasco de 180 g que los niños piden solos.</p><div class="prod-precio" style="padding:0"><span class="precio" style="font-size:30px">${fmt(p.$)}</span><span class="muted" style="font-size:14px">precio unitario</span></div><div class="vit-acc"><div data-accion="${p.id}"></div><a class="enlace-mas" href="marcas.html#wellpro">Más de ${p.m} ${ic("arrow")}</a></div></div>`;
+  c.innerHTML=`<div class="vit-escena">${vitrinaHTML(p,"")}</div><div class="vit-txt" data-reveal><span class="vit-sello">${ic("zap")}En vitrina esta semana</span><span class="vit-marca" style="color:${m.col}">${p.m}</span><h2 class="titulo up" id="vi-t">${p.n}</h2><p>Gomitas de pectina con multivitaminas, en forma de osito. Un frasco de 180 g que los niños piden solos.</p>${MODO_INFO?"":`<div class="prod-precio" style="padding:0"><span class="precio" style="font-size:30px">${fmt(p.$)}</span><span class="muted" style="font-size:14px">precio unitario</span></div>`}<div class="vit-acc">${MODO_INFO?`<a class="btn btn-wa" target="_blank" rel="noopener" href="${waProd(p)}">${WA_ICON}Consultar por WhatsApp</a>`:`<div data-accion="${p.id}"></div>`}<a class="enlace-mas" href="marcas.html#wellpro">Más de ${p.m} ${ic("arrow")}</a></div></div>`;
   const esc=c.querySelector(".vit-escena"), v=esc.querySelector(".vitrina");
   if(MQ_REDUCE.matches||!matchMedia("(hover:hover)").matches) return;
   esc.addEventListener("pointermove",e=>{const r=esc.getBoundingClientRect();const x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;v.style.setProperty("--ry",((x-.5)*16)+"deg");v.style.setProperty("--rx",((.5-y)*12)+"deg");v.style.setProperty("--lx",(x*100)+"%");v.style.setProperty("--ly",(y*100)+"%")});
@@ -1560,7 +1619,7 @@ function iniciarMazo(){
   const mazo=document.querySelector("[data-mazo]"); if(!mazo) return;
   let orden=[...mazo.querySelectorAll(".carta")], ocupado=false;
   const cont=document.querySelector("[data-mazo-cont]");
-  const pinta=()=>{orden.forEach((c,i)=>{const vis=i<4;c.style.zIndex=100-i;c.style.transform=vis?`translate(${i*14}px,${i*-10}px) rotate(${i*3}deg) scale(${1-i*.04})`:`translate(42px,-30px) rotate(9deg) scale(.88)`;c.style.opacity=vis?1:0;c.setAttribute("aria-hidden",i?"true":"false")});cont.textContent=`Promoción ${(+orden[0].dataset.carta)+1} de ${orden.length}`};
+  const pinta=()=>{orden.forEach((c,i)=>{const vis=i<4;c.style.zIndex=100-i;c.style.transform=vis?`translate(${i*14}px,${i*-10}px) rotate(${i*3}deg) scale(${1-i*.04})`:`translate(42px,-30px) rotate(9deg) scale(.88)`;c.style.opacity=vis?1:0;c.setAttribute("aria-hidden",i?"true":"false")});cont.textContent=`Oferta ${(+orden[0].dataset.carta)+1} de ${orden.length}`};
   const sig=(dir=1)=>{if(ocupado)return;ocupado=true;
     if(dir>0){const top=orden[0];top.classList.add("sale");setTimeout(()=>{top.classList.remove("sale");orden.push(orden.shift());pinta();ocupado=false},MQ_REDUCE.matches?0:380)}
     else{orden.unshift(orden.pop());const top=orden[0];top.classList.add("sale-izq");pinta();requestAnimationFrame(()=>requestAnimationFrame(()=>{top.classList.remove("sale-izq");pinta();setTimeout(()=>ocupado=false,400)}))}};
@@ -1588,7 +1647,7 @@ window.initPage=function(){
   const por=document.documentElement.getAttribute("data-portada");
   selectorPortada(); iniciarEntrada();
   if(por==="caja") iniciarCaja(); if(por==="canasta") opLluvia();
-  iniciarCinta(); iniciarMarcas(); opAcor(); opCoverflow(); iniciarVitrinaEstrella(); iniciarCifras(); iniciarMazo(); iniciarRuta();
+  iniciarCinta(); iniciarMarcas(); opAcor(); opCoverflow(); iniciarCategorias(); iniciarCategoriasDirecto(); iniciarVitrinaEstrella(); iniciarCifras(); iniciarMazo(); iniciarRuta();
 };
 </script>
 </body>
