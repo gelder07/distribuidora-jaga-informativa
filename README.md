@@ -6,7 +6,7 @@ Versión informativa del sitio de Distribuidora JAGA: sin tienda, sin carrito, s
 
 | Archivo | Página |
 | --- | --- |
-| `index.html` | Visor del sitio |
+| `index.html` | Entrada: abre directo el inicio |
 | `inicio.html` | Inicio |
 | `marcas.html` | Marcas afiliadas y sus productos |
 | `nosotros.html` | Nosotros |
